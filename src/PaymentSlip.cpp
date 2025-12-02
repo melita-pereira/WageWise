@@ -1,4 +1,7 @@
+
 #include "PaymentSlip.h"
+#include <chrono>
+#include <sstream>
 
 PaymentSlip::PaymentSlip(Employee* emp) 
     : employee(emp), taxDeduction(0), insuranceDeduction(0), otherDeductions(0) {
@@ -6,8 +9,18 @@ PaymentSlip::PaymentSlip(Employee* emp)
     calculateDeductions();
     netPay = grossPay - (taxDeduction + insuranceDeduction + otherDeductions);
     
-    // Use a simple static date
-    paymentDate = "2025-11-24";
+    // Set paymentDate to current system date
+    auto now = std::chrono::system_clock::now();
+    std::time_t t = std::chrono::system_clock::to_time_t(now);
+    std::tm tm;
+#ifdef _WIN32
+    localtime_s(&tm, &t);
+#else
+    tm = *std::localtime(&t);
+#endif
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%Y-%m-%d");
+    paymentDate = oss.str();
 }
 
 // Calculate deductions based on gross pay

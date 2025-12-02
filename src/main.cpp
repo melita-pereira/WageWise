@@ -12,16 +12,15 @@
 using namespace std;
 
 void displayMainMenu() {
-    cout << "\n=== WageWise Payroll ===\n";
-    cout << "1. Add Employee\n";
-    cout << "2. View All\n";
-    cout << "3. Search\n";
-    cout << "4. Update\n";
-    cout << "5. Delete\n";
-    cout << "6. Generate Payslip\n";
-    cout << "7. Save\n";
-    cout << "8. Exit\n";
-    cout << "\nChoice: ";
+    cout << "\n\033[1;35m+======================================================+\033[0m\n";
+    cout << "\033[1;36m|            WageWise Payroll Management System         |\033[0m\n";
+    cout << "\033[1;35m+------------------------------------------------------+\033[0m\n";
+    cout << "\033[1;33m| 1. Add Employee         | 5. Delete Employee         |\033[0m\n";
+    cout << "| 2. View All Employees   | 6. Generate Payslip        |\n";
+    cout << "| 3. Search Employee      | 7. Save Data               |\n";
+    cout << "| 4. Update Employee      | 8. Exit                    |\n";
+    cout << "\033[1;35m+======================================================+\033[0m\n";
+    cout << "\033[1;32mSelect an option (1-8): \033[0m";
 }
 
 void clearInputBuffer() {
@@ -92,11 +91,20 @@ void searchEmployee(EmployeeManager* manager) {
     cin >> id;
 
     Employee* emp = manager->findEmployeeById(id);
-    if (emp != nullptr) {
-        cout << *emp;
-    } else {
-        cout << "\nNot found\n";
-    }
+        if (emp != nullptr) {
+           cout << "\n+==================================================================+\n";
+           cout << "|  ID   | Name           | Position      | Dept      | Type   |  Pay |\n";
+           cout << "+-------+----------------+--------------+----------+--------+------+\n";
+           cout << "| " << left << setw(5) << emp->getEmployeeId() << " | "
+               << left << setw(14) << emp->getName().substr(0,14) << " | "
+               << left << setw(13) << emp->getPosition().substr(0,13) << " | "
+               << left << setw(10) << emp->getDepartment().substr(0,10) << " | "
+               << left << setw(7) << emp->getEmployeeType().substr(0,7) << " | "
+               << right << setw(6) << emp->calculatePay() << " |\n";
+           cout << "+==================================================================+\n";
+        } else {
+            cout << "\n\033[1;31mNot found\033[0m\n";
+        }
 }
 
 void updateEmployee(EmployeeManager* manager) {
@@ -111,10 +119,23 @@ void updateEmployee(EmployeeManager* manager) {
         return;
     }
 
-    cout << *emp;
+                cout << "\n+==================================================================+\n";
+                cout << "|  ID   | Name           | Position      | Dept      | Type   |  Pay |\n";
+                cout << "+-------+----------------+--------------+----------+--------+------+\n";
+    cout << "| " << left << setw(5) << emp->getEmployeeId() << " | "
+         << left << setw(14) << emp->getName().substr(0,14) << " | "
+         << left << setw(13) << emp->getPosition().substr(0,13) << " | "
+         << left << setw(10) << emp->getDepartment().substr(0,10) << " | "
+         << left << setw(7) << emp->getEmployeeType().substr(0,7) << " | "
+         << right << setw(6) << emp->calculatePay() << " |\n";
+                cout << "+==================================================================+\n";
 
-    cout << "\nUpdate: 1)Name 2)Position 3)Dept 4)Pay\n";
-    cout << "Choice: ";
+            cout << "\033[1;33m\nUpdate Options:\033[0m\n";
+            cout << "  \033[1;32m1) Name\033[0m\n";
+            cout << "  \033[1;32m2) Position\033[0m\n";
+            cout << "  \033[1;32m3) Department\033[0m\n";
+            cout << "  \033[1;32m4) Pay Details\033[0m\n";
+            cout << "Select option: ";
     
     int choice;
     cin >> choice;
@@ -155,8 +176,12 @@ void updateEmployee(EmployeeManager* manager) {
                 SalariedEmployee* salaried = dynamic_cast<SalariedEmployee*>(emp);
                 double salary, bonus;
                 cout << "Salary: $";
-                cin >> salary;
-                cout << "Bonus: $";
+                    cout << "\nUpdate Options:\n";
+                    cout << "  1) Name\n";
+                    cout << "  2) Position\n";
+                    cout << "  3) Department\n";
+                    cout << "  4) Pay Details\n";
+                    cout << "Select option: ";
                 cin >> bonus;
                 salaried->setAnnualSalary(salary);
                 salaried->setBonus(bonus);
@@ -176,23 +201,31 @@ void deleteEmployee(EmployeeManager* manager) {
 
     Employee* emp = manager->findEmployeeById(id);
     if (emp != nullptr) {
-        cout << *emp;
-        
+           cout << "\n+==================================================================+\n";
+           cout << "|  ID   | Name           | Position      | Dept      | Type   |  Pay |\n";
+           cout << "+-------+----------------+--------------+----------+--------+------+\n";
+           cout << "| " << left << setw(5) << emp->getEmployeeId() << " | "
+               << left << setw(14) << emp->getName().substr(0,14) << " | "
+               << left << setw(13) << emp->getPosition().substr(0,13) << " | "
+               << left << setw(10) << emp->getDepartment().substr(0,10) << " | "
+               << left << setw(7) << emp->getEmployeeType().substr(0,7) << " | "
+               << right << setw(6) << emp->calculatePay() << " |\n";
+           cout << "+==================================================================+\n";
         char confirm;
-        cout << "\nDelete? (y/n): ";
+        cout << "\n\033[1;31mDelete? (y/n): \033[0m";
         cin >> confirm;
 
         if (confirm == 'y' || confirm == 'Y') {
             if (manager->deleteEmployee(id)) {
-                cout << "Deleted\n";
+                cout << "\033[1;32mDeleted\033[0m\n";
             } else {
-                cout << "Failed\n";
+                cout << "\033[1;31mFailed\033[0m\n";
             }
         } else {
-            cout << "Cancelled\n";
+            cout << "\033[1;33mCancelled\033[0m\n";
         }
     } else {
-        cout << "\nNot found\n";
+        cout << "\n\033[1;31mNot found\033[0m\n";
     }
 }
 
@@ -210,7 +243,7 @@ void generatePaymentSlip(EmployeeManager* manager) {
 
     PaymentSlip slip(emp);
     
-    cout << "\nAdjustment? 1)Bonus 2)Penalty 3)None: ";
+        cout << "\nAdjustment? 1) Bonus 2) Penalty 3) None: ";
     
     int choice;
     cin >> choice;
@@ -227,7 +260,19 @@ void generatePaymentSlip(EmployeeManager* manager) {
         slip -= penalty;
     }
 
-    cout << slip;
+        cout << "\n+==================================================================+\n";
+        cout << "|                  WageWise Payment Slip                        |\n";
+        cout << "+------------------------------------------------------------------+\n";
+        cout << "| Date:      " << setw(12) << slip.getPaymentDate() << "   ID: " << setw(8) << emp->getEmployeeId() << " |\n";
+        cout << "| Name:      " << setw(20) << emp->getName() << "   Dept: " << setw(10) << emp->getDepartment() << " |\n";
+        cout << "| Position:  " << setw(20) << emp->getPosition() << "   Type: " << setw(10) << emp->getEmployeeType() << " |\n";
+        cout << "+------------------------------------------------------------------+\n";
+        cout << "| Gross Pay:         $" << setw(10) << slip.getGrossPay() << " |\n";
+        cout << "| Tax Deduction:    -$" << setw(10) << slip.getGrossPay() * 0.15 << " |\n";
+        cout << "| Insurance Deduct: -$" << setw(10) << slip.getGrossPay() * 0.05 << " |\n";
+        cout << "| Other Deductions: -$" << setw(10) << slip.getGrossPay() * 0.02 << " |\n";
+        cout << "| Net Pay:           $" << setw(10) << slip.getNetPay() << " |\n";
+        cout << "+==================================================================+\n";
 }
 
 void saveData(EmployeeManager* manager, CsvDataSource* dataSource) {

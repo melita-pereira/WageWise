@@ -42,29 +42,36 @@ This system enables company payroll administrators to manage employee records, u
 * OOP & design patterns
 
 ##How to Compile & Run
-Inside the project root:
-```bash
-g++ -std=c++17 -Iinclude -o WageWise.exe src/*.cpp
-./WageWise
-```
 
-On Windows with MinGW:
+### Requirements
+
+You need to have [g++](https://www.mingw-w64.org/) (MinGW for Windows) installed to build and run this project.
+
+Inside the project root:
+
+### Compile & Run (Windows/MinGW)
+
+Open a terminal in the project root and run:
+
 ```powershell
-g++ -std=c++17 src/*.cpp -I src -o WageWise.exe
+g++ -std=c++17 -Iinclude -o WageWise.exe src/*.cpp
 .\WageWise.exe
 ```
 
-Or compile individually for better build management:
-```bash
-g++ -std=c++17 -I src -c src/Employee.cpp -o obj/Employee.o
-g++ -std=c++17 -I src -c src/HourlyEmployee.cpp -o obj/HourlyEmployee.o
-g++ -std=c++17 -I src -c src/SalariedEmployee.cpp -o obj/SalariedEmployee.o
-g++ -std=c++17 -I src -c src/EmployeeManager.cpp -o obj/EmployeeManager.o
-g++ -std=c++17 -I src -c src/CsvDataSource.cpp -o obj/CsvDataSource.o
-g++ -std=c++17 -I src -c src/PaymentSlip.cpp -o obj/PaymentSlip.o
-g++ -std=c++17 -I src -c src/main.cpp -o obj/main.o
-g++ obj/*.o -o WageWise
+This will build and run the program. No batch files are required.
+
+If you want to build object files individually (advanced):
+
+```powershell
+g++ -std=c++17 -Iinclude -c src/Employee.cpp -o Employee.o
+g++ -std=c++17 -Iinclude -c src/HourlyEmployee.cpp -o HourlyEmployee.o
+g++ -std=c++17 -Iinclude -c src/SalariedEmployee.cpp -o SalariedEmployee.o
+g++ -std=c++17 -Iinclude -c src/EmployeeManager.cpp -o EmployeeManager.o
+g++ -std=c++17 -Iinclude -c src/CsvDataSource.cpp -o CsvDataSource.o
+g++ -std=c++17 -Iinclude -c src/PaymentSlip.cpp -o PaymentSlip.o
+g++ -std=c++17 -Iinclude -c src/main.cpp -o main.o
+g++ *.o -o WageWise.exe
 ```
 
 ##Documentation
-All relevant documents are in src/include/data/docs
+All relevant documents are in include/data/docs

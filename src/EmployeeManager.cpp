@@ -1,4 +1,5 @@
 #include "EmployeeManager.h"
+#include <iomanip>
 
 // Initialize static member
 EmployeeManager* EmployeeManager::instance = nullptr;
@@ -51,10 +52,18 @@ void EmployeeManager::displayAllEmployees() const {
         return;
     }
 
-    cout << "\n--- All Employees (" << employees.size() << ") ---\n";
+    cout << "\n+==================================================================+\n";
+    cout << "|  ID   | Name           | Position      | Dept      | Type   |  Pay |\n";
+    cout << "+-------+----------------+--------------+----------+--------+------+\n";
     for (const Employee* emp : employees) {
-        cout << *emp;
+        cout << "| " << left << setw(5) << emp->getEmployeeId() << " | "
+             << left << setw(14) << emp->getName().substr(0,14) << " | "
+             << left << setw(13) << emp->getPosition().substr(0,13) << " | "
+             << left << setw(10) << emp->getDepartment().substr(0,10) << " | "
+             << left << setw(7) << emp->getEmployeeType().substr(0,7) << " | "
+             << right << setw(6) << emp->calculatePay() << " |\n";
     }
+    cout << "+==================================================================+\n";
 }
 
 // Delete employee by ID
